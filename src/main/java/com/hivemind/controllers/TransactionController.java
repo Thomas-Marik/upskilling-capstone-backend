@@ -46,7 +46,7 @@ public class TransactionController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transaction) throws BankAccountNotFoundException, InsufficientFundsException {
+    public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transaction) throws AccountNotFoundException, InsufficientFundsException {
         return new ResponseEntity<Transaction>(transactionService.saveTransaction(transaction), HttpStatus.OK);
     }
 

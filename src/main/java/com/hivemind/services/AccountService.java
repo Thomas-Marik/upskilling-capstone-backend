@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -35,15 +37,15 @@ public class AccountService {
     }
 
     public Account saveAccount(Account account) throws CustomerNotFoundException {
-        Customer customer = customerService.findCustomerById(account.getCustomer().getPermanentAccountNumber());
+        Customer customer = customerService.findCustomerById(Account.getCustomer().getPermanentAccountNumber());
         account.setCustomer(customer);
         return accountRepository.save(account);
     }
 
     public Account editAccount(Account account) throws AccountNotFoundException {
-        Optional<Account> accountOptional = accountRepository.findById(account.getAccountNumber());
+        Optional<Account> accountOptional = accountRepository.findById(Account.getAccount());
         if (!accountOptional.isPresent()) {
-            throw new AccountNotFoundException("Account not found : "+account.getAccountNumber());
+            throw new AccountNotFoundException("BankAccount not found with accountNumber: "+account.getAccountNumber());
         }
         return accountRepository.save(account);
     }
@@ -51,10 +53,19 @@ public class AccountService {
     public Account deleteAccount(Long accountNumber) throws AccountNotFoundException {
         Optional<Account> accountOptional = accountRepository.findById(accountNumber);
         if (!accountOptional.isPresent()) {
-            throw new AccountNotFoundException("Account not found : "+accountNumber);
+            throw new AccountNotFoundException("BankAccount not found with accountNumber: "+accountNumber);
         }
         Account account = accountOptional.get();
-        accountRepository.deleteById(accountNumber);
+        accountRepository.deleteById(Account.getAccountNumber());
         return account;
+    }
+
+    public List<Account> findAllAccountsByPan(Long pan) {
+        List<Account> accountList = findAllAccounts();
+        List<Account> accountListFiltered = accountList
+                .stream()
+                .filter( bankAccount -> Objects.equals(bankAccount.getCustomer().getPermanentAccountNumber(), pan))
+                .collect(Collectors.toList());
+        return accountListFiltered;
     }
 }

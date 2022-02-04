@@ -21,7 +21,7 @@ public class AccountController {
 
     @Autowired
     AccountController(AccountService accountService) {
-        this.AccountService = accountService;
+        this.accountService = accountService;
     }
 
     @GetMapping("/{accountNumber}")
@@ -45,12 +45,12 @@ public class AccountController {
     }
 
     @PutMapping("")
-    public ResponseEntity<Account> editAccount(@RequestBody Account bankAccount) throws AccountNotFoundException {
-        return new ResponseEntity<Account>(AccountService.editAccount(account), HttpStatus.OK);
+    public ResponseEntity<Account> editAccount(@RequestBody Account account) throws AccountNotFoundException {
+        return new ResponseEntity<Account>(accountService.editAccount(account), HttpStatus.OK);
     }
 
     @DeleteMapping("/{accountNumber}")
     public ResponseEntity<Account> deleteAccount(@PathVariable Long accountNumber) throws AccountNotFoundException{
-        return new ResponseEntity<Account>(AccountService.deleteAccount(accountNumber), HttpStatus.OK);
+        return new ResponseEntity<Account>(accountService.deleteAccount(accountNumber), HttpStatus.OK);
     }
 }
