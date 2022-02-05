@@ -44,11 +44,11 @@ public class TransactionController {
     public ResponseEntity<List<Transaction>> getAllTransactionsWithinWindow(@PathVariable Long timestampA, @PathVariable Long timestampB) {
         return new ResponseEntity<List<Transaction>>(transactionService.findAllTransactionsWithinWindow(timestampA,timestampB), HttpStatus.OK);
     }
-
-    @PostMapping("")
-    public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transaction) throws AccountNotFoundException, InsufficientFundsException {
-        return new ResponseEntity<Transaction>(transactionService.saveTransaction(transaction), HttpStatus.OK);
-    }
+//
+//    @PostMapping("")
+//    public ResponseEntity<Transaction> addTransaction(@RequestBody Transaction transaction) throws AccountNotFoundException, InsufficientFundsException {
+//        return new ResponseEntity<Transaction>(transactionService.saveTransaction(transaction), HttpStatus.OK);
+//    }
 
     @PutMapping("")
     public ResponseEntity<Transaction> editTransaction(@RequestBody Transaction transaction) throws TransactionNotFoundException {

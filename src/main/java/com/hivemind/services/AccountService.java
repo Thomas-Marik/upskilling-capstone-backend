@@ -37,18 +37,18 @@ public class AccountService {
     }
 
     public Account saveAccount(Account account) throws CustomerNotFoundException {
-        Customer customer = customerService.findCustomerById(Account.getCustomer().getPermanentAccountNumber());
+        Customer customer = customerService.findCustomerById(account.getCustomer().getPermanentAccountNumber());
         account.setCustomer(customer);
         return accountRepository.save(account);
     }
 
-    public Account editAccount(Account account) throws AccountNotFoundException {
-        Optional<Account> accountOptional = accountRepository.findById(Account.getAccount());
-        if (!accountOptional.isPresent()) {
-            throw new AccountNotFoundException("BankAccount not found with accountNumber: "+account.getAccountNumber());
-        }
-        return accountRepository.save(account);
-    }
+//    public Account editAccount(Account account) throws AccountNotFoundException {
+//        Optional<Account> accountOptional = accountRepository.findById(account.getAccounById());
+//        if (!accountOptional.isPresent()) {
+//            throw new AccountNotFoundException("BankAccount not found with accountNumber: "+account.getAccountNumber());
+//        }
+//        return accountRepository.save(account);
+//    }
 
     public Account deleteAccount(Long accountNumber) throws AccountNotFoundException {
         Optional<Account> accountOptional = accountRepository.findById(accountNumber);
@@ -56,7 +56,7 @@ public class AccountService {
             throw new AccountNotFoundException("BankAccount not found with accountNumber: "+accountNumber);
         }
         Account account = accountOptional.get();
-        accountRepository.deleteById(Account.getAccountNumber());
+        accountRepository.deleteById(account.getAccountNumber());
         return account;
     }
 

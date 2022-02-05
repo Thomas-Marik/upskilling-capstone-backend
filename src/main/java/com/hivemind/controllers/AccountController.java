@@ -43,11 +43,11 @@ public class AccountController {
     public ResponseEntity<Account> addAccount(@RequestBody Account account) throws CustomerNotFoundException {
         return new ResponseEntity<Account>(accountService.saveAccount(account), HttpStatus.OK);
     }
-
-    @PutMapping("")
-    public ResponseEntity<Account> editAccount(@RequestBody Account account) throws AccountNotFoundException {
-        return new ResponseEntity<Account>(accountService.editAccount(account), HttpStatus.OK);
-    }
+//
+//    @PutMapping("")
+//    public ResponseEntity<Account> editAccount(@RequestBody Account account) throws AccountNotFoundException {
+//        return new ResponseEntity<Account>(accountService.editAccount(account), HttpStatus.OK);
+//    }
 
     @DeleteMapping("/{accountNumber}")
     public ResponseEntity<Account> deleteAccount(@PathVariable Long accountNumber) throws AccountNotFoundException{

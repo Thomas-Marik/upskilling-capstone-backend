@@ -41,34 +41,34 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
-    public Transaction saveTransaction(Transaction transaction) throws AccountNotFoundException, InsufficientFundsException {
-        Account initiatorAccount = accountService.findAccountById(transaction.getInitiatorAccount().getAccountNumber());
-        transaction.setInitiatorAccount(initiatorAccount);
-
-        if (transaction.getTransactionType().equals("WITHDRAWAL")) {
-            if (initiatorAccount.getBalance() < transaction.getAmount()) {
-                throw new InsufficientFundsException("Tried to withdraw "+transaction.getAmount()+" from account with only "+initiatorAccount.getBalance());
-            } else {
-                initiatorAccount.setBalance(initiatorAccount.getBalance()-transaction.getAmount());
-                accountService.editAccount(initiatorAccount);
-            }
-        } else if (transaction.getTransactionType().equals("DEPOSIT")) {
-            initiatorAccount.setBalance(initiatorAccount.getBalance()+transaction.getAmount());
-            accountService.editAccount(initiatorAccount);
-        }  else if (transaction.getTransactionType().equals("TRANSFER")) {
-            if (initiatorAccount.getBalance() < transaction.getAmount()) {
-                throw new InsufficientFundsException("Tried to withdraw "+transaction.getAmount()+" from account with only "+initiatorAccount.getBalance());
-            } else {
-                Account recipientAccount = accountService.findAccountById(transaction.getRecipientAccountNumber());
-                initiatorAccount.setBalance(initiatorAccount.getBalance()-transaction.getAmount());
-                recipientAccount.setBalance(recipientAccount.getBalance()+transaction.getAmount());
-                accountService.editAccount(initiatorAccount);
-                accountService.editAccount(recipientAccount);
-                transactionRepository.save(transaction);
-            }
-        }
-        return (Transaction) transactionRepository.save(transaction);
-    }
+//    public Transaction saveTransaction(Transaction transaction) throws AccountNotFoundException, InsufficientFundsException {
+//        Account initiatorAccount = accountService.findAccountById(transaction.getInitiatorAccount().getAccountNumber());
+//        transaction.setInitiatorAccount(initiatorAccount);
+//
+//        if (transaction.getTransactionType().equals("WITHDRAWAL")) {
+//            if (initiatorAccount.getBalance() < transaction.getAmount()) {
+//                throw new InsufficientFundsException("Tried to withdraw "+transaction.getAmount()+" from account with only "+initiatorAccount.getBalance());
+//            } else {
+//                initiatorAccount.setBalance(initiatorAccount.getBalance()-transaction.getAmount());
+//                accountService.editAccount(initiatorAccount);
+//            }
+//        } else if (transaction.getTransactionType().equals("DEPOSIT")) {
+//            initiatorAccount.setBalance(initiatorAccount.getBalance()+transaction.getAmount());
+//            accountService.editAccount(initiatorAccount);
+//        }  else if (transaction.getTransactionType().equals("TRANSFER")) {
+//            if (initiatorAccount.getBalance() < transaction.getAmount()) {
+//                throw new InsufficientFundsException("Tried to withdraw "+transaction.getAmount()+" from account with only "+initiatorAccount.getBalance());
+//            } else {
+//                Account recipientAccount = accountService.findAccountById(transaction.getRecipientAccountNumber());
+//                initiatorAccount.setBalance(initiatorAccount.getBalance()-transaction.getAmount());
+//                recipientAccount.setBalance(recipientAccount.getBalance()+transaction.getAmount());
+//                accountService.editAccount(initiatorAccount);
+//                accountService.editAccount(recipientAccount);
+//                transactionRepository.save(transaction);
+//            }
+//        }
+//        return (Transaction) transactionRepository.save(transaction);
+//    }
 
     public Transaction editTransaction(Transaction transaction) throws TransactionNotFoundException {
         Optional<Transaction> transactionOptional = transactionRepository.findById(transaction.getId());
